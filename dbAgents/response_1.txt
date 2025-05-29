@@ -1,0 +1,54 @@
+Query : list the names of airlines for which grievances have been raised 
+
+
+> Entering new AgentExecutor chain...
+Thought: Let's begin by setting the pandas display options to show all the columns and then list the column names.
+Action: python_repl_ast
+Action Input: print(df.columns)Index(['category', 'subcategory', 'type', 'totalReceived',
+       'activeGrievancesWithoutEscalation', 'activeGrievancesWithEscalation',
+       'closedGrievancesWithoutEscalation', 'closedGrievancesWithEscalation',
+       'successfulTransferIn', 'successfulTransferOut',
+       'grievancesWithoutRatings', 'grievancesWithRatings',
+       'grievancesWithVeryGoodRating', 'grievanceswithgoodrating',
+       'grievancesWithOKRating', 'grievancesWithBadRating',
+       'grievancesWithVeryBadRating', 'twitterGrievances',
+       'facebookGrievances', 'grievancesAdditionalInfoProvided',
+       'grievancesAdditionalInfoNotProvided', 'grievancesWithoutFeedback',
+       'grievancesWithFeedback', 'grievancesWithFeedbackIssueNotResolved',
+       'grievancesWithFeedbackIssueResolved'],
+      dtype='object')
+Now, let's list the names of airlines for which grievances have been raised.
+Action: python_repl_ast
+Action Input: df['category'].unique()['Airline' 'DGCA' 'Customs' 'Airport' 'Security' 'Immigration'
+ 'Helicopter - General Aviation' 'BCAS']The two methods used to extract the names of airlines for which grievances have been raised provided inconsistent results. The first method of printing column names did not directly give the relevant airline names, while the second method gave various categories where grievances had been raised. To ensure accuracy, I will attempt to directly filter the unique airline names from the `subcategory` column.
+Action: python_repl_ast
+Action Input: df[df['category']=='Airline']['subcategory'].unique()['Air Canada' 'Air Costa' 'GoAir' 'Air India' 'Lufthansa' 'Jet Airways'
+ 'Alliance Air (India)' 'Air Arabia' 'Thai Airways' 'IndiGo'
+ 'Air Mauritius' 'Srilankan Airways' 'Akasa Air' 'Aeroflot'
+ 'Emirates Airline' 'Kuwait Airways' 'Qatar Airways'
+ 'Air Asia Berhad (Intl Tickets)' 'Ethiopian Airlines' 'Tiger Airways'
+ 'Star Air' 'Etihad Airways' 'Silk Air' 'Air France' 'FlyBig'
+ 'Cathay Pacific' 'Singapore Airlines' 'Turkish Airlines' 'Egypt Air'
+ 'Oman Airlines' 'Saudia' 'Air Astana' 'Air Seychelles' 0
+ 'All Nippon Airways' 'Biman Bangladesh' 'Virgin Atlantic'
+ 'China Southern' 'Shandong Airlines' 'Air China' 'Kam Air' 'Buddha Air'
+ 'Asiana Airlines' 'Fly Dubai' 'Nepal Airlines Corporation' 'VietJet Air'
+ 'Jetlite' 'KLM Airlines' 'Malaysia Airlines' 'Bangkok Airways' 'Finn Air'
+ 'TruJet' 'Turkmenistan Airlines' 'Korean Air' 'Bhutan Airlines'
+ 'Air Austral' 'SpiceJet' 'Swiss Air' 'Vistara' 'Malindo Airways'
+ 'United Airlines' 'Gulf Air' 'British Airways' 'Air Pegasus'
+ 'Air India Express' 'Thai Air Asia' 'Thai Lion Air'
+ 'United Airlines Bangladesh Ltd' 'Ukraine International' 'Eva Airways'
+ 'Air Manas' 'Japan Airlines' 'China Eastern Airlines'
+ 'Uzbekistan Airways' 'IndiaOne Air' 'Yemenia Airways' 'Dragon Air'
+ 'Kenya Airways' 'Mahan Air' 'Iraqi Airways' 'Island Aviation Services'
+ 'EL-AL-Israel' 'Delta Airlines' 'Ariana Afgan' 'Iran Air' 'Druk Air'
+ 'Aerologic' 'Alliance Air' 'Pak International']The two methods used to extract the names of airlines for which grievances have been raised did provide consistent results. By directly filtering the unique airline names from the `subcategory` column, we can list the names of airlines for which grievances have been raised. 
+
+Final Answer: {"table": {"columns": ["Airlines"], "data": [["Air Canada"], ["Air Costa"], ["GoAir"], ["Air India"], ["Lufthansa"], ["Jet Airways"], ["Alliance Air (India)"], ["Air Arabia"], ["Thai Airways"], ["IndiGo"], ["Air Mauritius"], ["Srilankan Airways"], ["Akasa Air"], ["Aeroflot"], ["Emirates Airline"], ["Kuwait Airways"], ["Qatar Airways"], ["Air Asia Berhad (Intl Tickets)"], ["Ethiopian Airlines"], ["Tiger Airways"], ["Star Air"], ["Etihad Airways"], ["Silk Air"], ["Air France"], ["FlyBig"], ["Cathay Pacific"], ["Singapore Airlines"], ["Turkish Airlines"], ["Egypt Air"], ["Oman Airlines"], ["Saudia"], ["Air Astana"], ["Air Seychelles"], ["All Nippon Airways"], ["Biman Bangladesh"], ["Virgin Atlantic"], ["China Southern"], ["Shandong Airlines"], ["Air China"], ["Kam Air"], ["Buddha Air"], ["Asiana Airlines"], ["Fly Dubai"], ["Nepal Airlines Corporation"], ["VietJet Air"], ["Jetlite"], ["KLM Airlines"], ["Malaysia Airlines"], ["Bangkok Airways"], ["Finn Air"], ["TruJet"], ["Turkmenistan Airlines"], ["Korean Air"], ["Bhutan Airlines"], ["Air Austral"], ["SpiceJet"], ["Swiss Air"], ["Vistara"], ["Malindo Airways"], ["United Airlines"], ["Gulf Air"], ["British Airways"], ["Air Pegasus"], ["Air India Express"], ["Thai Air Asia"], ["Thai Lion Air"], ["United Airlines Bangladesh Ltd"], ["Ukraine International"], ["Eva Airways"], ["Air Manas"], ["Japan Airlines"], ["China Eastern Airlines"], ["Uzbekistan Airways"], ["IndiaOne Air"], ["Yemenia Airways"], ["Dragon Air"], ["Kenya Airways"], ["Mahan Air"], ["Iraqi Airways"], ["Island Aviation Services"], ["EL-AL-Israel"], ["Delta Airlines"], ["Ariana Afgan"], ["Iran Air"], ["Druk Air"], ["Aerologic"], ["Alliance Air"], ["Pak International"]]}}
+
+> Finished chain.
+{"table": {"columns": ["Airlines"], "data": [["Air Canada"], ["Air Costa"], ["GoAir"], ["Air India"], ["Lufthansa"], ["Jet Airways"], ["Alliance Air (India)"], ["Air Arabia"], ["Thai Airways"], ["IndiGo"], ["Air Mauritius"], ["Srilankan Airways"], ["Akasa Air"], ["Aeroflot"], ["Emirates Airline"], ["Kuwait Airways"], ["Qatar Airways"], ["Air Asia Berhad (Intl Tickets)"], ["Ethiopian Airlines"], ["Tiger Airways"], ["Star Air"], ["Etihad Airways"], ["Silk Air"], ["Air France"], ["FlyBig"], ["Cathay Pacific"], ["Singapore Airlines"], ["Turkish Airlines"], ["Egypt Air"], ["Oman Airlines"], ["Saudia"], ["Air Astana"], ["Air Seychelles"], ["All Nippon Airways"], ["Biman Bangladesh"], ["Virgin Atlantic"], ["China Southern"], ["Shandong Airlines"], ["Air China"], ["Kam Air"], ["Buddha Air"], ["Asiana Airlines"], ["Fly Dubai"], ["Nepal Airlines Corporation"], ["VietJet Air"], ["Jetlite"], ["KLM Airlines"], ["Malaysia Airlines"], ["Bangkok Airways"], ["Finn Air"], ["TruJet"], ["Turkmenistan Airlines"], ["Korean Air"], ["Bhutan Airlines"], ["Air Austral"], ["SpiceJet"], ["Swiss Air"], ["Vistara"], ["Malindo Airways"], ["United Airlines"], ["Gulf Air"], ["British Airways"], ["Air Pegasus"], ["Air India Express"], ["Thai Air Asia"], ["Thai Lion Air"], ["United Airlines Bangladesh Ltd"], ["Ukraine International"], ["Eva Airways"], ["Air Manas"], ["Japan Airlines"], ["China Eastern Airlines"], ["Uzbekistan Airways"], ["IndiaOne Air"], ["Yemenia Airways"], ["Dragon Air"], ["Kenya Airways"], ["Mahan Air"], ["Iraqi Airways"], ["Island Aviation Services"], ["EL-AL-Israel"], ["Delta Airlines"], ["Ariana Afgan"], ["Iran Air"], ["Druk Air"], ["Aerologic"], ["Alliance Air"], ["Pak International"]]}}
+
+
+Result is a Table

@@ -1,0 +1,10 @@
+pyodbc
+tabulate
+openai
+langchain
+langchain-community
+langchain-core
+langchain-experimental
+langchain-openai
+pandas
+streamlit
