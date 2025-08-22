@@ -1,3 +1,0 @@
-This is a sample file that will have some records and data.
-This is to be transferred to a remote server or destination.
-We will explore the hashing of the file and how it can be used to verify the integrity of the file.
