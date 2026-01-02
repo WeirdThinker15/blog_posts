@@ -173,3 +173,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+practical_cryptography_series/.idea/inspectionProfiles/profiles_settings.xml
+practical_cryptography_series/.idea/misc.xml
+practical_cryptography_series/.idea/modules.xml
+*.pem
