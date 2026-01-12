@@ -1,0 +1,19 @@
+curl -X POST http://localhost:8080/transactions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "transactionId": "TXN-2001",
+    "amount": 12000,
+    "currency": "INR",
+    "accountId": "ACC-789",
+    "channel": "MOBILE"
+  }'
+
+curl -X POST http://localhost:8080/transactions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "transactionId": "TXN-2002",
+    "amount": 1000,
+    "currency": "INR",
+    "accountId": "ACC-781",
+    "channel": "MOBILE"
+  }'

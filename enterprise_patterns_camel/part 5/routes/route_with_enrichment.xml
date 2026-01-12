@@ -1,0 +1,41 @@
+<routes xmlns="http://camel.apache.org/schema/camel">
+
+    <route id="transaction-rest">
+        <from uri="platform-http:/transactions?httpMethodRestrict=POST"/>
+
+        <!-- Step 1: Parse incoming JSON -->
+        <unmarshal>
+            <json library="Jackson"/>
+        </unmarshal>
+
+        <!-- Step 2: Map to canonical structure -->
+        <setBody>
+            <simple>
+                {
+                  "transactionId": "${body[transactionId]}",
+                  "amount": ${body[amount]},
+                  "currency": "${body[currency]}",
+                  "accountId": "${body[accountId]}",
+                  "channel": "${body[channel]}",
+                  "risk": {
+                    "score": null,
+                    "category": null
+                  },
+                  "metadata": {
+                    "receivedAt": "${date:now:yyyy-MM-dd'T'HH:mm:ss'Z'}"
+                  }
+                }
+            </simple>
+        </setBody>
+                
+        <!-- Prevent HTTP header leakage -->
+        <removeHeaders pattern="CamelHttp*"/>
+
+        <!-- Step 3: Enrich Transaction with Risk Score -->
+        <to uri="http://risk-service:9000/risk/enrich?bridgeEndpoint=true"/>
+
+        <log message="Canonical transaction: ${body}"/>
+
+    </route>
+
+</routes>
