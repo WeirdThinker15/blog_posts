@@ -1,0 +1,19 @@
+services:
+  camel:
+    image: apache/camel-jbang:4.16.0
+    volumes:
+      - ./routes:/work/routes
+      - ./application.properties:/work/application.properties
+    command:
+      - run
+      - /work/routes/route_part_7.xml
+      - --dependency=camel-platform-http
+      - --dependency=camel-jackson
+      - --dependency=camel-http
+    ports:
+      - "8080:8080"
+
+  risk-service:
+    build: ./risk_service
+    ports:
+      - "9000:9000"

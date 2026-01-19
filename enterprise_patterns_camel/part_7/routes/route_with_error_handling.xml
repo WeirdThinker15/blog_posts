@@ -1,0 +1,62 @@
+<routes xmlns="http://camel.apache.org/schema/camel">
+
+    <onException>
+        <exception>java.lang.Exception</exception>
+        <maximumRedeliveries>3</maximumRedeliveries>
+        <redeliveryDelay>2000</redeliveryDelay>
+        <retryAttemptedLogLevel>WARN</retryAttemptedLogLevel>
+        <handled>
+            <constant>true</constant>
+        </handled>
+        <to uri="log:errors?level=ERROR" />
+        <to uri="direct:deadLetter" />
+    </onException>
+
+    <route id="transaction-rest">
+        <from uri="platform-http:/transactions?httpMethodRestrict=POST" />
+
+        <!-- Step 1: Parse incoming JSON -->
+        <unmarshal>
+            <json library="Jackson" />
+        </unmarshal>
+
+        <!-- Step 2: Map to canonical structure -->
+        <choice>
+            <when>
+                <!-- Example: Reject invalid transaction amounts -->
+                <simple>${body[amount]} &lt;= 0</simple>
+                <to uri="log:businessErrors?level=INFO" />
+            </when>
+            <otherwise>
+                <!-- Original processing continues here -->
+                <setBody>
+                    <simple>
+                        {
+                        "transactionId": "${body[transactionId]}",
+                        "amount": ${body[amount]},
+                        "currency": "${body[currency]}",
+                        "accountId": "${body[accountId]}",
+                        "channel": "${body[channel]}",
+                        "risk": {"score": null, "category": null},
+                        "metadata": {"receivedAt": "${date:now:yyyy-MM-dd'T'HH:mm:ss'Z'}"}
+                        }
+                    </simple>
+                </setBody>
+
+                <removeHeaders pattern="CamelHttp*" />
+                <to uri="http://risk-service:9000/risk/enrich?bridgeEndpoint=true" />
+                <log message="Canonical transaction: ${body}" />
+            </otherwise>
+        </choice>
+
+        <log message="Canonical transaction: ${body}" />
+
+    </route>
+
+    <route id="deadLetterRoute">
+        <from uri="direct:deadLetter" />
+        <to uri="log:deadLetter?level=ERROR" />
+        <to uri="file://failed-messages" />
+    </route>
+
+</routes>

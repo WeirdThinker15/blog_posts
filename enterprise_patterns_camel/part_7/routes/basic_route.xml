@@ -1,0 +1,23 @@
+<routes xmlns="http://camel.apache.org/schema/camel">
+
+    <route id="transaction-rest">
+        <from uri="platform-http:/transactions?httpMethodRestrict=POST"/>
+
+        <!-- Convert JSON string/stream into Map -->
+        <unmarshal>
+            <json library="Jackson"/>
+        </unmarshal>
+
+        <log message="Incoming transaction: ${body}"/>
+
+        <setBody>
+            <simple>
+                {
+                  "status": "RECEIVED",
+                  "transactionId": "${body[transactionId]}"
+                }
+            </simple>
+        </setBody>
+    </route>
+
+</routes>

@@ -1,0 +1,74 @@
+<routes>
+    
+    <route id="transaction-rest" routeConfigurationId="commonErrorHandling">
+
+        <!-- Route-scoped error handling -->
+        <onException>
+            <exception>java.lang.Exception</exception>
+            <handled>
+                <constant>true</constant>
+            </handled>
+
+            <setHeader name="CamelHttpResponseCode">
+                <constant>500</constant>
+            </setHeader>
+
+            <setBody>
+                <simple>
+                    {
+                    "error": "Internal processing error",
+                    "message": "${exception.message}"
+                    }
+                </simple>
+            </setBody>
+
+            <to uri="log:errorLogger?level=ERROR" />
+            <to uri="direct:deadLetter" />
+        </onException>
+
+        <from uri="platform-http:/transactions?httpMethodRestrict=POST" />
+
+        <unmarshal>
+            <json library="Jackson" />
+        </unmarshal>
+
+        <!-- Validation -->
+        <choice>
+            <when>
+                <simple>${body[amount]} &lt;= 0</simple>
+                <setHeader name="CamelHttpResponseCode">
+                    <constant>400</constant>
+                </setHeader>
+                <setBody>
+                    <simple>{"error":"Invalid amount"}</simple>
+                </setBody>
+            </when>
+            <otherwise>
+                <setBody>
+                    <simple>
+                        {
+                        "transactionId": "${body[transactionId]}",
+                        "amount": ${body[amount]},
+                        "currency": "${body[currency]}",
+                        "accountId": "${body[accountId]}",
+                        "channel": "${body[channel]}",
+                        "risk": {"score": null, "category": null},
+                        "metadata": {"receivedAt": "${date:now:yyyy-MM-dd'T'HH:mm:ss'Z'}"}
+                        }
+                    </simple>
+                </setBody>
+
+                <removeHeaders pattern="CamelHttp*" />
+                <to uri="http://risk-service:9000/risk/enrich?bridgeEndpoint=true" />
+                <log message="Canonical transaction: ${body}" />
+            </otherwise>
+        </choice>
+    </route>
+
+    <route id="deadLetterRoute">
+        <from uri="direct:deadLetter" />
+        <to uri="log:deadLetter?level=ERROR" />
+        <to uri="file://failed-messages" />
+    </route>
+
+</routes>
