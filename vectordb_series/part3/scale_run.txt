@@ -1,0 +1,36 @@
+Model Loading -- Finished
+Search Space Size: 5
+Search time: 0.0141 seconds
+I enjoy studying AI: 0.9062
+Artificial intelligence is fascinating: 0.6747
+I love machine learning: 0.6700
+Search Space Size: 50
+Search time: 0.0123 seconds
+I enjoy studying AI: 0.9062
+I enjoy studying AI: 0.9062
+I enjoy studying AI: 0.9062
+Search Space Size: 500
+Search time: 0.0133 seconds
+I enjoy studying AI: 0.9062
+I enjoy studying AI: 0.9062
+I enjoy studying AI: 0.9062
+Search Space Size: 5000
+Search time: 0.0209 seconds
+I enjoy studying AI: 0.9062
+I enjoy studying AI: 0.9062
+I enjoy studying AI: 0.9062
+Search Space Size: 50000
+Search time: 0.0977 seconds
+I enjoy studying AI: 0.9062
+I enjoy studying AI: 0.9062
+I enjoy studying AI: 0.9062
+Search Space Size: 500000
+Search time: 3.2107 seconds
+I enjoy studying AI: 0.9062
+I enjoy studying AI: 0.9062
+I enjoy studying AI: 0.9062
+Search Space Size: 5000000
+   Search time: 107.3616 seconds
+I enjoy studying AI: 0.9062
+I enjoy studying AI: 0.9062
+I enjoy studying AI: 0.9062
