@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak-mtls-1
+
+    command:
+      - start-dev
+      - --https-certificate-file=/opt/keycloak/certs/server/server.crt
+      - --https-certificate-key-file=/opt/keycloak/certs/server/server.key
+      - --https-client-auth=request
+      - --https-trust-store-file=/opt/keycloak/certs/truststore/truststore.jks
+      - --https-trust-store-password=keycloak
+      - --https-protocols=TLSv1.2
+      - --https-key-store-password=keycloak
+
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_STRICT: true
+      KC_HTTP_ENABLED: false
+
+    ports:
+      - "8443:8443"
+
+    volumes:
+      - ./certs:/opt/keycloak/certs
